@@ -4,7 +4,10 @@ import pycurl
 from io import BytesIO
 import xml.etree.ElementTree as ET
 
-KEY = "59471a7bb18425f09bd2b43c543a6710"
+with open('key') as file:
+	KEY = file.read()
+
+print(KEY)
 RSS_URL = "http://www.tagesschau.de/xml/rss2"
 
 buffer = BytesIO()
