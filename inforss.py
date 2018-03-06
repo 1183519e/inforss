@@ -18,7 +18,6 @@ curl =  pycurl.Curl()
 curl.setopt(curl.URL, RSS_URL)
 curl.setopt(curl.WRITEDATA, rssbuffer)
 curl.perform()
-del curl
 
 ### Parse into info-beamer format (json)
 tree = ET.fromstring(rssbuffer.getvalue().decode('utf8'))
@@ -39,5 +38,4 @@ curl.setopt(curl.POST, 1)
 curl.setopt(curl.POSTFIELDS, data.encode('utf-8'))
 curl.setopt(curl.WRITEDATA, postbuffer)
 curl.perform()
-del curl
 print(postbuffer.getvalue())
