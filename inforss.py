@@ -3,11 +3,12 @@
 import pycurl
 from io import BytesIO
 import xml.etree.ElementTree as ET
+import pprint
+pp = pprint.PrettyPrinter(indent=4)
 
 with open('key') as file:
 	KEY = file.read()
 
-print(KEY)
 RSS_URL = "http://www.tagesschau.de/xml/rss2"
 
 buffer = BytesIO()
@@ -20,6 +21,10 @@ curl.perform()
 #print(buffer.getvalue().decode('utf8'))
 
 tree = ET.fromstring(buffer.getvalue().decode('utf8'))
+news = ()
 for item in tree.findall("*/item")[0:4]:
-	print(item)
+	title = item.find("title").text
+	description = item.find("description").text	
+	news = news + ({"title":title, "description":description},)
 
+pp.pprint(news)
