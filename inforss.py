@@ -3,8 +3,6 @@
 import pycurl
 from io import BytesIO
 import xml.etree.ElementTree as ET
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
 
 with open('key') as file:
 	KEY = file.read().rstrip()
@@ -24,16 +22,13 @@ del curl
 
 ### Parse into info-beamer format (json)
 tree = ET.fromstring(rssbuffer.getvalue().decode('utf8'))
-news = ()
+news = []
 for item in tree.findall("*/item")[0:4]:
-	title = item.find("title").text
-	description = item.find("description").text	
-	news = news + ({"title":title, "description":description},)
+	news.append('{"text":"' + item.find("description").text + '"}')
 
 data = 'config={"scroller":{"texts":['
-for item in news:
-	data = data + '{"text":"' + item["description"] + '"},'
-data = data + ']}}&mode=update'
+data += str.join(',', news)
+data += ']}}&mode=update'
 
 
 ### curl curly data into fluffy clouds
