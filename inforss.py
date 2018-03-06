@@ -3,8 +3,9 @@
 import pycurl
 from io import BytesIO
 import xml.etree.ElementTree as ET
+import os
 
-with open('key') as file:
+with open(os.path.dirname(__file__) + "/" + 'key') as file:
 	KEY = file.read().rstrip()
 
 RSS_URL = "http://www.tagesschau.de/xml/rss2"
