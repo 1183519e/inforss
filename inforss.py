@@ -23,12 +23,9 @@ curl.perform()
 tree = ET.fromstring(rssbuffer.getvalue().decode('utf8'))
 news = []
 for item in tree.findall("*/item")[0:4]:
-	news.append('{"text":"' + item.find("description").text + '"}')
+	news.append('{{"text":"{}"}}'.format(item.find("description").text.replace('"','\\"')))
 
-data = 'config={"scroller":{"texts":['
-data += str.join(',', news)
-data += ']}}&mode=update'
-
+data = 'config={{"scroller":{{"texts":[{}]}}}}&mode=update'.format(str.join(',', news))
 
 ### curl curly data into fluffy clouds
 curl = pycurl.Curl()
